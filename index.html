@@ -47,11 +47,8 @@
     --line: rgba(10,17,40,0.09);
     --acid: #2e5cff;
     --acid-dim: #2447d6;
-    --acid-pale: rgba(46,92,255,0.08);
     --mesh-1: rgba(46,92,255,0.22);
     --mesh-2: rgba(120,170,255,0.28);
-    --mesh-3: rgba(10,17,40,0.10);
-    --wa-green: #25d366;
     --wa-bubble: #dcf8c6;
     --radius: 18px;
     --font-display: "Bricolage Grotesque", sans-serif;
@@ -156,6 +153,52 @@
   .hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 44px; }
   .hero-note { font-size: 13.5px; color: var(--ink-dim); }
   .hero-note strong { color: var(--ink); font-weight: 600; }
+
+  .trust-bar { display: flex; flex-wrap: wrap; gap: 18px; margin: 18px 0 0; }
+  .trust-item { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--ink-dim); font-weight: 500; }
+  .trust-item svg { color: var(--acid); flex-shrink: 0; }
+
+  /* ---------- Floating WhatsApp CTA ---------- */
+  .float-cta {
+    position: fixed; right: 20px; bottom: 20px; z-index: 60;
+    display: inline-flex; align-items: center; gap: 9px;
+    background: var(--ink); color: #fff; padding: 14px 20px; border-radius: 999px;
+    font-family: var(--font-body); font-weight: 600; font-size: 14px; text-decoration: none;
+    box-shadow: 0 14px 30px -8px rgba(10,17,40,0.45);
+    opacity: 0; transform: translateY(16px) scale(0.9); pointer-events: none;
+    transition: opacity .3s ease, transform .3s ease, background .15s ease;
+  }
+  .float-cta.visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+  .float-cta:hover { background: var(--acid); }
+  .float-cta svg { flex-shrink: 0; }
+  @media (max-width: 640px) {
+    .float-cta { right: 14px; bottom: 14px; padding: 13px 16px; font-size: 13.5px; }
+    .float-cta .float-cta-text { display: none; }
+  }
+
+  /* ---------- Before / After ---------- */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .compare-col { border-radius: var(--radius); padding: 28px; }
+  .compare-col.before { background: var(--bg-raised); border: 1px solid var(--line); }
+  .compare-col.after { background: var(--ink); color: #fff; box-shadow: 0 24px 48px -22px rgba(10,17,40,0.4); }
+  .compare-label { font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; display: inline-flex; align-items: center; gap: 7px; }
+  .compare-col.before .compare-label { color: #b3475a; }
+  .compare-col.after .compare-label { color: #7fa2ff; }
+  .compare-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 13px; }
+  .compare-col li { font-size: 14.5px; line-height: 1.5; padding-left: 24px; position: relative; }
+  .compare-col.before li { color: var(--ink-dim); }
+  .compare-col.after li { color: rgba(255,255,255,0.85); }
+  .compare-col.before li::before { content: "✕"; position: absolute; left: 0; color: #b3475a; font-weight: 700; }
+  .compare-col.after li::before { content: "✓"; position: absolute; left: 0; color: #7fa2ff; font-weight: 700; }
+  @media (max-width: 700px) { .compare-grid { grid-template-columns: 1fr; } }
+
+  .urgency-badge {
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    background: rgba(46,92,255,0.08); border: 1px solid rgba(46,92,255,0.25);
+    color: var(--acid-dim); font-size: 13px; font-weight: 600;
+    padding: 7px 16px; border-radius: 999px;
+  }
+  .urgency-badge svg { flex-shrink: 0; }
 
   .stat-row {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
@@ -339,6 +382,11 @@
           <a class="btn btn-ghost" href="#precios">Ver planes</a>
         </div>
         <p class="hero-note"><strong>Sin instalar nada.</strong> Lo armamos nosotros, tú solo apruebas el resultado.</p>
+        <div class="trust-bar">
+          <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Prueba 48h sin costo</span>
+          <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Sin contrato de permanencia</span>
+          <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Tus datos en tu propia base</span>
+        </div>
 
         <div class="stat-row" data-reveal>
           <div><div class="stat-num">24/7</div><div class="stat-label">respuesta automática, sin turnos</div></div>
@@ -395,6 +443,36 @@
   </div>
 </section>
 
+<section id="comparacion">
+  <div class="wrap">
+    <p class="kicker">El cambio real</p>
+    <h2>Así se ve tu WhatsApp antes y después</h2>
+    <p class="lede">No cambia lo que vendes — cambia qué tan rápido y consistente respondes.</p>
+    <div class="compare-grid">
+      <div class="compare-col before" data-reveal>
+        <span class="compare-label">Sin Kontestame</span>
+        <ul>
+          <li>Respondes cuando alcanzas, a veces horas después</li>
+          <li>Los mensajes fuera de horario quedan sin ver hasta el otro día</li>
+          <li>No hay registro de quién preguntó qué ni cuándo</li>
+          <li>Si el lead no compra al tiro, nadie vuelve a escribirle</li>
+          <li>Cada consulta repetitiva te quita tiempo de cerrar ventas</li>
+        </ul>
+      </div>
+      <div class="compare-col after" data-reveal>
+        <span class="compare-label">Con Kontestame</span>
+        <ul>
+          <li>Responde en menos de 1 minuto, 24/7, todos los días</li>
+          <li>Nunca hay un mensaje sin respuesta, ni de noche ni fin de semana</li>
+          <li>Cada conversación y cada dato queda guardado en tu CRM</li>
+          <li>El sistema vuelve a escribir solo, hasta 3 veces, sin que muevas un dedo</li>
+          <li>Tu equipo se enfoca en cerrar, no en repetir lo mismo todo el día</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="como-funciona">
   <div class="wrap">
     <p class="kicker">Cómo funciona</p>
@@ -424,6 +502,7 @@
 <section id="precios">
   <div class="wrap">
     <p class="kicker">Planes</p>
+    <span class="urgency-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>Quedan cupos de precio fundador este mes</span>
     <h2>Setup único + mensualidad simple — sin sorpresas</h2>
     <p class="lede">Los primeros 5 negocios que se suman este mes acceden al precio fundador. Después, precio de lista.</p>
     <p class="lede" style="font-size:13px;opacity:0.65;margin-top:-8px">Precios netos, se factura + 19% IVA (boleta o factura, a tu elección).</p>
@@ -544,6 +623,11 @@
   </div>
 </footer>
 
+<a class="float-cta" id="floatCta" href="https://wa.me/56976907280?text=Hola%2C%20quiero%20la%20demo%20gratis%20de%2048%20horas" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.2h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2m0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 0 1-1.26-4.39c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.55-3.7 8.24-8.24 8.24m4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.4-.12-.56.13-.17.25-.64.81-.79.97-.14.17-.29.18-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.13-.56-1.35-.77-1.84-.2-.48-.41-.42-.56-.42-.14-.01-.31-.01-.48-.01-.17 0-.43.06-.66.31-.23.25-.86.84-.86 2.05s.88 2.38 1 2.54c.13.17 1.73 2.64 4.2 3.7.59.25 1.05.4 1.4.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.2-.58.2-1.08.14-1.18-.06-.1-.23-.16-.48-.28"/></svg>
+  <span class="float-cta-text">Escríbenos por WhatsApp</span>
+</a>
+
 <script>
   var els = document.querySelectorAll('[data-reveal]');
   var io = new IntersectionObserver(function (entries) {
@@ -552,6 +636,17 @@
     });
   }, { threshold: 0.15 });
   els.forEach(function (el) { io.observe(el); });
+
+  var floatCta = document.getElementById('floatCta');
+  var heroEl = document.querySelector('.hero');
+  if (floatCta && heroEl) {
+    var ctaObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        floatCta.classList.toggle('visible', !e.isIntersecting);
+      });
+    }, { threshold: 0 });
+    ctaObserver.observe(heroEl);
+  }
 
   document.querySelectorAll('.faq-q').forEach(function (btn) {
     btn.addEventListener('click', function () {
