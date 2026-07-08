@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kontestame — Asistente de Ventas WhatsApp con IA</title>
+<meta name="description" content="Deja de perder ventas por no responder a tiempo. Un asistente de WhatsApp con IA que responde, agenda y hace seguimiento por ti, 24/7." />
+<link rel="canonical" href="https://kontestame.com/" />
+<meta name="theme-color" content="#fafbff" />
+<link rel="icon" type="image/png" href="logo-icono.png" />
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://kontestame.com/" />
+<meta property="og:title" content="Kontestame — Asistente de Ventas WhatsApp con IA" />
+<meta property="og:description" content="Deja de perder ventas por no responder a tiempo. Un asistente de WhatsApp con IA que responde, agenda y hace seguimiento por ti, 24/7." />
+<meta property="og:image" content="https://kontestame.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="es_CL" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Kontestame — Asistente de Ventas WhatsApp con IA" />
+<meta name="twitter:description" content="Deja de perder ventas por no responder a tiempo. Un asistente de WhatsApp con IA que responde, agenda y hace seguimiento por ti, 24/7." />
+<meta name="twitter:image" content="https://kontestame.com/og-image.png" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Kontestame",
+  "url": "https://kontestame.com/",
+  "logo": "https://kontestame.com/logo-icono.png",
+  "description": "Asistente de ventas por WhatsApp con IA para pymes chilenas — responde, agenda y hace seguimiento 24/7.",
+  "areaServed": "CL",
+  "sameAs": []
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fafbff;
+    --bg-raised: #f1f3fb;
+    --ink: #0a1128;
+    --ink-dim: #5b6485;
+    --line: rgba(10,17,40,0.09);
+    --acid: #2e5cff;
+    --acid-dim: #2447d6;
+    --mesh-1: rgba(46,92,255,0.22);
+    --mesh-2: rgba(120,170,255,0.28);
+    --wa-bubble: #dcf8c6;
+    --radius: 18px;
+    --font-display: "Bricolage Grotesque", sans-serif;
+    --font-body: "Work Sans", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+  /* film-grain texture over the whole page */
+  body::before {
+    content: "";
+    position: fixed; inset: 0; z-index: 2; pointer-events: none;
+    opacity: 0.05; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC44NSIgbnVtT2N0YXZlcz0iMiIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9Im1hdHJpeCIgdmFsdWVzPSIwIDAgMCAwIDAgIDAgMCAwIDAgMCAgMCAwIDAgMCAwICAwIDAgMCAwLjQgMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNuKSIvPjwvc3ZnPg==");
+    background-size: 140px 140px;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 3; }
+  a { color: inherit; }
+
+  /* ---------- decorative mesh blobs ---------- */
+  .blob { position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; z-index: 0; }
+
+  /* ---------- Nav ---------- */
+  nav.top {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(250,251,255,0.82);
+    backdrop-filter: blur(12px) saturate(1.4);
+    border-bottom: 1px solid rgba(7,11,26,0.08);
+  }
+  nav.top .wrap { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; }
+  .logo { display: inline-flex; align-items: center; }
+  .logo img { height: 30px; width: auto; display: block; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 22px; border-radius: 999px;
+    font-family: var(--font-body); font-weight: 600; font-size: 14.5px;
+    text-decoration: none; border: 1px solid transparent;
+    transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+    cursor: pointer;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--acid); color: #ffffff; box-shadow: 0 10px 24px -8px rgba(46,92,255,0.55); }
+  .btn-primary:hover { background: #4a72ff; box-shadow: 0 14px 30px -8px rgba(46,92,255,0.65); }
+  .btn-ghost { background: transparent; border-color: var(--line); color: var(--ink); }
+  .btn-ghost:hover { border-color: var(--ink-dim); }
+  .btn-sm { padding: 9px 16px; font-size: 13.5px; }
+
+  /* ---------- Marquee divider ---------- */
+  .marquee { background: var(--ink); overflow: hidden; padding: 13px 0; position: relative; z-index: 3; }
+  .marquee-track { display: flex; width: max-content; animation: marquee 26s linear infinite; }
+  .marquee-track span {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-display); font-weight: 600; font-size: 13.5px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: rgba(255,255,255,0.92); padding: 0 22px; white-space: nowrap;
+  }
+  .marquee-track span::after { content: "✦"; color: var(--acid); font-size: 10px; margin-left: 22px; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 88px 0 60px; position: relative; overflow: hidden; }
+  .hero-blob-1 { top: -180px; right: -140px; width: 520px; height: 520px; background: radial-gradient(circle, var(--mesh-1), transparent 70%); }
+  .hero-blob-2 { top: 120px; left: -160px; width: 420px; height: 420px; background: radial-gradient(circle, var(--mesh-2), transparent 70%); }
+  .hero-dotgrid {
+    position: absolute; inset: -40px -40px auto -40px; height: 640px; z-index: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(10,17,40,0.14) 1.4px, transparent 1.4px);
+    background-size: 26px 26px;
+    -webkit-mask-image: radial-gradient(ellipse 640px 420px at 30% 20%, black 0%, transparent 72%);
+    mask-image: radial-gradient(ellipse 640px 420px at 30% 20%, black 0%, transparent 72%);
+  }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: center; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600; color: var(--acid-dim);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 6px 14px; border: 1px solid rgba(46,92,255,0.4); border-radius: 999px;
+    background: rgba(255,255,255,0.6);
+    margin-bottom: 26px;
+  }
+  .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--acid); animation: pulse-dot 1.8s ease-in-out infinite; }
+  @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+  h1 {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(38px, 5.6vw, 64px); line-height: 1.0; letter-spacing: -0.035em;
+    margin: 0 0 24px;
+  }
+  h1 em { font-style: normal; color: var(--acid); position: relative; white-space: nowrap; }
+  h1 em::after {
+    content: ""; position: absolute; left: -2%; right: -2%; bottom: 0.06em; height: 0.24em;
+    background: rgba(46,92,255,0.16); z-index: -1; border-radius: 4px;
+  }
+  .hero p.sub { font-size: 18.5px; color: var(--ink-dim); max-width: 490px; margin: 0 0 36px; }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 44px; }
+  .hero-note { font-size: 13.5px; color: var(--ink-dim); }
+  .hero-note strong { color: var(--ink); font-weight: 600; }
+
+  .trust-bar { display: flex; flex-wrap: wrap; gap: 18px; margin: 18px 0 0; }
+  .trust-item { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--ink-dim); font-weight: 500; }
+  .trust-item svg { color: var(--acid); flex-shrink: 0; }
+
+  /* ---------- Floating WhatsApp CTA ---------- */
+  .float-cta {
+    position: fixed; right: 20px; bottom: 20px; z-index: 60;
+    display: inline-flex; align-items: center; gap: 9px;
+    background: var(--ink); color: #fff; padding: 14px 20px; border-radius: 999px;
+    font-family: var(--font-body); font-weight: 600; font-size: 14px; text-decoration: none;
+    box-shadow: 0 14px 30px -8px rgba(10,17,40,0.45);
+    opacity: 0; transform: translateY(16px) scale(0.9); pointer-events: none;
+    transition: opacity .3s ease, transform .3s ease, background .15s ease;
+  }
+  .float-cta.visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+  .float-cta:hover { background: var(--acid); }
+  .float-cta svg { flex-shrink: 0; }
+  @media (max-width: 640px) {
+    .float-cta { right: 14px; bottom: 14px; padding: 13px 16px; font-size: 13.5px; }
+    .float-cta .float-cta-text { display: none; }
+  }
+
+  /* ---------- Before / After ---------- */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .compare-col { border-radius: var(--radius); padding: 28px; }
+  .compare-col.before { background: var(--bg-raised); border: 1px solid var(--line); }
+  .compare-col.after { background: var(--ink); color: #fff; box-shadow: 0 24px 48px -22px rgba(10,17,40,0.4); }
+  .compare-label { font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; display: inline-flex; align-items: center; gap: 7px; }
+  .compare-col.before .compare-label { color: #b3475a; }
+  .compare-col.after .compare-label { color: #7fa2ff; }
+  .compare-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 13px; }
+  .compare-col li { font-size: 14.5px; line-height: 1.5; padding-left: 24px; position: relative; }
+  .compare-col.before li { color: var(--ink-dim); }
+  .compare-col.after li { color: rgba(255,255,255,0.85); }
+  .compare-col.before li::before { content: "✕"; position: absolute; left: 0; color: #b3475a; font-weight: 700; }
+  .compare-col.after li::before { content: "✓"; position: absolute; left: 0; color: #7fa2ff; font-weight: 700; }
+  @media (max-width: 700px) { .compare-grid { grid-template-columns: 1fr; } }
+
+  .urgency-badge {
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+    background: rgba(46,92,255,0.08); border: 1px solid rgba(46,92,255,0.25);
+    color: var(--acid-dim); font-size: 13px; font-weight: 600;
+    padding: 7px 16px; border-radius: 999px;
+  }
+  .urgency-badge svg { flex-shrink: 0; }
+
+  .stat-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--line); border: 1px solid var(--line); border-radius: var(--radius);
+    overflow: hidden; margin-top: 8px;
+    box-shadow: 0 20px 40px -24px rgba(10,17,40,0.25);
+  }
+  .stat-row div { background: #ffffff; padding: 22px 20px; }
+  .stat-num { font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--acid); }
+  .stat-label { font-size: 13px; color: var(--ink-dim); margin-top: 4px; }
+
+  /* ---------- Chat mockup ---------- */
+  .chat-mock {
+    background: #ffffff; border-radius: 22px; padding: 0; overflow: hidden;
+    box-shadow: 0 30px 60px -22px rgba(10,17,40,0.32), 0 0 0 1px rgba(10,17,40,0.06);
+    transform: rotate(-3.2deg);
+    max-width: 340px; margin: 0 auto; position: relative; z-index: 2;
+  }
+  .chat-mock-head {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--ink); color: #fff; padding: 14px 16px;
+  }
+  .chat-avatar { width: 34px; height: 34px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+  .chat-avatar img { width: 22px; height: 22px; object-fit: contain; }
+  .chat-name { font-size: 14px; font-weight: 700; }
+  .chat-status { font-size: 11.5px; color: rgba(255,255,255,0.6); }
+  .chat-body {
+    padding: 16px 14px 14px; display: flex; flex-direction: column; gap: 9px;
+    background: #eef1f8 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><circle cx='2' cy='2' r='1' fill='%23dfe3ef'/></svg>");
+  }
+  .bubble { font-size: 13px; line-height: 1.4; padding: 9px 12px; border-radius: 12px; max-width: 82%; box-shadow: 0 1px 1px rgba(0,0,0,0.06); }
+  .bubble.in { background: #ffffff; align-self: flex-start; border-bottom-left-radius: 3px; color: var(--ink); }
+  .bubble.out { background: var(--wa-bubble); align-self: flex-end; border-bottom-right-radius: 3px; color: #1a3a12; }
+  .bubble .tick { color: #4fa8e8; font-size: 11px; margin-left: 6px; }
+  .typing { display: flex; gap: 4px; align-self: flex-start; background: #fff; padding: 10px 14px; border-radius: 12px; border-bottom-left-radius: 3px; }
+  .typing span { width: 6px; height: 6px; border-radius: 50%; background: #b9bfd1; animation: bounce 1.2s infinite ease-in-out; }
+  .typing span:nth-child(2) { animation-delay: 0.15s; }
+  .typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes bounce { 0%,60%,100% { transform: translateY(0); opacity: 0.5; } 30% { transform: translateY(-4px); opacity: 1; } }
+  .chat-wrap { position: relative; }
+  .chat-wrap .blob { top: 20%; right: -10%; width: 300px; height: 300px; background: radial-gradient(circle, var(--mesh-1), transparent 70%); }
+
+  /* ---------- Sections generic ---------- */
+  section { padding: 84px 0; border-top: 1px solid var(--line); position: relative; z-index: 3; }
+  .kicker { font-size: 13px; font-weight: 600; color: var(--acid-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
+  h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.025em; margin: 0 0 18px; max-width: 620px; }
+  .lede { font-size: 17px; color: var(--ink-dim); max-width: 560px; margin: 0 0 48px; }
+
+  /* ---------- Problem ---------- */
+  .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .problem-card {
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px;
+    position: relative; overflow: hidden;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .problem-card:hover { transform: translateY(-4px) rotate(-0.6deg); box-shadow: 0 20px 36px -20px rgba(10,17,40,0.28); }
+  .problem-card .n {
+    font-family: var(--font-display); font-size: 58px; font-weight: 800; color: rgba(46,92,255,0.14);
+    margin-bottom: 4px; line-height: 1; position: absolute; top: 12px; right: 18px;
+  }
+  .problem-card h3 { font-size: 17px; font-weight: 600; margin: 30px 0 8px; position: relative; }
+  .problem-card p { font-size: 14.5px; color: var(--ink-dim); margin: 0; position: relative; }
+
+  /* ---------- How it works ---------- */
+  .steps { display: flex; flex-direction: column; gap: 0; position: relative; }
+  .steps::before {
+    content: ""; position: absolute; left: 21px; top: 24px; bottom: 24px; width: 1px;
+    background-image: linear-gradient(var(--line) 60%, transparent 0%);
+    background-size: 1px 8px; background-repeat: repeat-y;
+  }
+  .step { display: grid; grid-template-columns: 64px 1fr; gap: 24px; padding: 28px 0; position: relative; z-index: 1; }
+  .step-num {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: #ffffff; border: 1px solid var(--line); box-shadow: 0 8px 18px -10px rgba(10,17,40,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-weight: 700; color: var(--acid); font-size: 16px;
+  }
+  .step h3 { font-size: 18px; font-weight: 600; margin: 4px 0 6px; }
+  .step p { font-size: 15px; color: var(--ink-dim); margin: 0; max-width: 520px; }
+
+  /* ---------- Pricing ---------- */
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; align-items: stretch; }
+  .plan {
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 32px 28px; display: flex; flex-direction: column;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .plan:hover { transform: translateY(-4px); }
+  .plan.featured { border: 2px solid var(--acid); position: relative; background: #ffffff; box-shadow: 0 24px 48px -22px rgba(46,92,255,0.35); transform: rotate(-0.8deg); }
+  .plan.featured:hover { transform: rotate(0deg) translateY(-4px); }
+  .plan-badge {
+    position: absolute; top: -13px; left: 28px;
+    background: var(--acid); color: #ffffff; font-size: 12px; font-weight: 700;
+    padding: 4px 12px; border-radius: 999px; letter-spacing: 0.02em;
+  }
+  .plan-name { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+  .plan-desc { font-size: 13.5px; color: var(--ink-dim); margin-bottom: 20px; }
+  .plan-price { font-family: var(--font-display); font-size: 32px; font-weight: 700; margin-bottom: 2px; }
+  .plan-price span { font-size: 14px; font-weight: 500; color: var(--ink-dim); font-family: var(--font-body); }
+  .plan-setup { font-size: 13px; color: var(--ink-dim); margin-bottom: 24px; }
+  .plan ul { list-style: none; padding: 0; margin: 0 0 28px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .plan li { font-size: 14px; color: var(--ink-dim); padding-left: 22px; position: relative; }
+  .plan li::before { content: "+"; position: absolute; left: 0; color: var(--acid); font-weight: 700; }
+  .plan .btn { justify-content: center; width: 100%; }
+
+  /* ---------- FAQ ---------- */
+  .faq-list { display: flex; flex-direction: column; gap: 10px; }
+  .faq-item { background: var(--bg-raised); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .faq-q {
+    width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 18px 22px; background: none; border: none; cursor: pointer;
+    font-family: var(--font-body); font-size: 15px; font-weight: 500; color: var(--ink);
+    text-align: left;
+  }
+  .faq-chevron { flex-shrink: 0; color: var(--acid-dim); transition: transform 0.25s ease; }
+  .faq-item.open .faq-chevron { transform: rotate(180deg); }
+  .faq-a-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s ease; }
+  .faq-item.open .faq-a-wrap { grid-template-rows: 1fr; }
+  .faq-a { overflow: hidden; }
+  .faq-a p { margin: 0; padding: 0 22px 20px; font-size: 14.5px; line-height: 1.6; color: var(--ink-dim); max-width: 640px; }
+
+  /* ---------- Final CTA ---------- */
+  .final { text-align: center; padding: 100px 0; position: relative; overflow: hidden; }
+  .final-blob-1 { top: -100px; left: 50%; transform: translateX(-50%); width: 700px; height: 400px; background: radial-gradient(ellipse, var(--mesh-1), transparent 70%); }
+  .final h2 { max-width: none; margin: 0 auto 18px; }
+  .final .lede { margin: 0 auto 40px; }
+  .final .hero-ctas { justify-content: center; }
+
+  footer { border-top: 1px solid var(--line); padding: 32px 0; position: relative; z-index: 3; }
+  footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  footer p { font-size: 13px; color: var(--ink-dim); margin: 0; }
+
+  @media (max-width: 860px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .chat-wrap { order: -1; margin-bottom: 12px; }
+    .chat-mock { transform: rotate(-2deg); max-width: 300px; }
+  }
+  @media (max-width: 640px) {
+    .hero { padding: 56px 0 48px; }
+    section { padding: 60px 0; }
+    .stat-row { grid-template-columns: 1fr; }
+    .step { grid-template-columns: 44px 1fr; }
+    .marquee-track span { font-size: 12px; padding: 0 16px; }
+    h1 em { white-space: normal; }
+  }
+
+  [data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+  [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <div class="logo">
+      <img src="logo-horizontal.png" alt="Kontestame" />
+    </div>
+    <a class="btn btn-primary btn-sm" href="https://wa.me/56976907280?text=Hola%2C%20quiero%20ver%20la%20demo%20gratis" target="_blank" rel="noopener">Pedir demo gratis</a>
+  </div>
+</nav>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Respuesta en menos de 1 minuto</span><span>Disponible 24/7, todos los días</span><span>Cero leads perdidos</span><span>Instalado en 72 horas</span><span>Sin instalar nada de tu parte</span>
+    <span>Respuesta en menos de 1 minuto</span><span>Disponible 24/7, todos los días</span><span>Cero leads perdidos</span><span>Instalado en 72 horas</span><span>Sin instalar nada de tu parte</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="blob hero-blob-1"></div>
+  <div class="blob hero-blob-2"></div>
+  <div class="hero-dotgrid"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">Respuesta automática 24/7</span>
+        <h1>Deja de perder ventas por <em>no responder a tiempo</em></h1>
+        <p class="sub">Un asistente de WhatsApp con IA que responde, agenda y hace seguimiento por ti — mientras duermes, mientras atiendes local, mientras vives tu vida.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="https://wa.me/56976907280?text=Hola%2C%20quiero%20ver%20la%20demo%20gratis" target="_blank" rel="noopener">Ver demo gratis (5 min)</a>
+          <a class="btn btn-ghost" href="#precios">Ver planes</a>
+        </div>
+        <p class="hero-note"><strong>Sin instalar nada.</strong> Lo armamos nosotros, tú solo apruebas el resultado.</p>
+        <div class="trust-bar">
+          <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Demo gratis, sin compromiso</span>
+          <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Sin contrato de permanencia</span>
+          <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Tus datos en tu propia base</span>
+        </div>
+
+        <div class="stat-row" data-reveal>
+          <div><div class="stat-num">24/7</div><div class="stat-label">respuesta automática, sin turnos</div></div>
+          <div><div class="stat-num">&lt;1 min</div><div class="stat-label">tiempo de primera respuesta</div></div>
+          <div><div class="stat-num">100%</div><div class="stat-label">leads capturados, ninguno se pierde</div></div>
+        </div>
+      </div>
+
+      <div class="chat-wrap" data-reveal>
+        <div class="blob"></div>
+        <div class="chat-mock">
+          <div class="chat-mock-head">
+            <div class="chat-avatar"><img src="logo-icono.png" alt="" /></div>
+            <div>
+              <div class="chat-name">Kontestame</div>
+              <div class="chat-status">en línea</div>
+            </div>
+          </div>
+          <div class="chat-body">
+            <div class="bubble in">Hola! vi su Instagram, ¿tienen hora para el sábado?</div>
+            <div class="bubble out">¡Hola! Sí, tenemos disponible a las 11:00 y a las 16:30 ¿cuál te acomoda más? <span class="tick">✓✓</span></div>
+            <div class="bubble in">La de las 16:30 porfa 🙌</div>
+            <div class="bubble out">Perfecto, quedaste agendada para el sábado 16:30. Te aviso un día antes para confirmar <span class="tick">✓✓</span></div>
+            <div class="typing"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="problema">
+  <div class="wrap">
+    <p class="kicker">El problema real</p>
+    <h2>Cada consulta sin responder a tiempo es una venta que se va con la competencia</h2>
+    <p class="lede">No es falta de clientes interesados — es falta de tiempo para responderles a todos, rápido, siempre.</p>
+    <div class="problem-grid">
+      <div class="problem-card" data-reveal>
+        <div class="n">01</div>
+        <h3>Respondes tarde</h3>
+        <p>Un cliente escribe a las 10pm o durante tu hora de almuerzo. Para cuando respondes, ya compró en otro lado.</p>
+      </div>
+      <div class="problem-card" data-reveal>
+        <div class="n">02</div>
+        <h3>Se pierden los datos</h3>
+        <p>Las conversaciones quedan sueltas en WhatsApp. No hay registro, no hay seguimiento, no hay forma de saber qué funcionó.</p>
+      </div>
+      <div class="problem-card" data-reveal>
+        <div class="n">03</div>
+        <h3>Nadie vuelve a escribir</h3>
+        <p>El lead que no compró al tiro simplemente se olvida — nadie hace el segundo o tercer intento por ti.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="comparacion">
+  <div class="wrap">
+    <p class="kicker">El cambio real</p>
+    <h2>Así se ve tu WhatsApp antes y después</h2>
+    <p class="lede">No cambia lo que vendes — cambia qué tan rápido y consistente respondes.</p>
+    <div class="compare-grid">
+      <div class="compare-col before" data-reveal>
+        <span class="compare-label">Sin Kontestame</span>
+        <ul>
+          <li>Respondes cuando alcanzas, a veces horas después</li>
+          <li>Los mensajes fuera de horario quedan sin ver hasta el otro día</li>
+          <li>No hay registro de quién preguntó qué ni cuándo</li>
+          <li>Si el lead no compra al tiro, nadie vuelve a escribirle</li>
+          <li>Cada consulta repetitiva te quita tiempo de cerrar ventas</li>
+        </ul>
+      </div>
+      <div class="compare-col after" data-reveal>
+        <span class="compare-label">Con Kontestame</span>
+        <ul>
+          <li>Responde en menos de 1 minuto, 24/7, todos los días</li>
+          <li>Nunca hay un mensaje sin respuesta, ni de noche ni fin de semana</li>
+          <li>Cada conversación y cada dato queda guardado en tu CRM</li>
+          <li>El sistema vuelve a escribir solo, hasta 3 veces, sin que muevas un dedo</li>
+          <li>Tu equipo se enfoca en cerrar, no en repetir lo mismo todo el día</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="como-funciona">
+  <div class="wrap">
+    <p class="kicker">Cómo funciona</p>
+    <h2>Instalado y funcionando en menos de 72 horas</h2>
+    <p class="lede">Nosotros armamos todo. Tú apruebas los mensajes antes de que salgan y ves los resultados en un panel simple.</p>
+    <div class="steps">
+      <div class="step" data-reveal>
+        <div class="step-num">1</div>
+        <div><h3>Un cliente escribe</h3><p>Llega por WhatsApp, Instagram o tu formulario web — el asistente responde en segundos, con tu tono y tu información real.</p></div>
+      </div>
+      <div class="step" data-reveal>
+        <div class="step-num">2</div>
+        <div><h3>La IA califica el interés</h3><p>Detecta si es una consulta caliente (quiere comprar ya) o solo está mirando, y prioriza según eso.</p></div>
+      </div>
+      <div class="step" data-reveal>
+        <div class="step-num">3</div>
+        <div><h3>Queda todo guardado</h3><p>Cada conversación y cada dato de contacto se guarda ordenado — nunca más un lead perdido en el chat.</p></div>
+      </div>
+      <div class="step" data-reveal>
+        <div class="step-num">4</div>
+        <div><h3>Seguimiento automático</h3><p>Si no responde, el sistema vuelve a escribir a las 48 horas — hasta 3 veces, sin que muevas un dedo.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="precios">
+  <div class="wrap">
+    <p class="kicker">Planes</p>
+    <span class="urgency-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>Quedan cupos de precio fundador este mes</span>
+    <h2>Setup único + mensualidad simple — sin sorpresas</h2>
+    <p class="lede">Los primeros 5 negocios que se suman este mes acceden al precio fundador. Después, precio de lista.</p>
+    <p class="lede" style="font-size:13px;opacity:0.65;margin-top:-8px">Precios netos, se factura + 19% IVA (boleta o factura, a tu elección).</p>
+    <div class="pricing-grid">
+      <div class="plan featured" data-reveal>
+        <span class="plan-badge">Precio fundador</span>
+        <div class="plan-name">Starter</div>
+        <div class="plan-desc">Para un negocio con un canal de contacto y volumen moderado de consultas.</div>
+        <div class="plan-price">$39.000 <span>+ IVA / mes</span></div>
+        <div class="plan-setup">+ $97.000 CLP + IVA de instalación única</div>
+        <ul>
+          <li>1 canal (WhatsApp o Email)</li>
+          <li>Respuesta automática 24/7</li>
+          <li>Captura de datos a tu CRM</li>
+          <li>Seguimiento automático (hasta 3 intentos)</li>
+          <li>Reporte semanal simple</li>
+        </ul>
+        <a class="btn btn-primary" href="https://wa.me/56976907280?text=Hola%2C%20me%20interesa%20el%20plan%20Starter" target="_blank" rel="noopener">Quiero este plan</a>
+      </div>
+      <div class="plan" data-reveal>
+        <div class="plan-name">Growth</div>
+        <div class="plan-desc">Para negocios con más volumen y más de un canal de contacto activo.</div>
+        <div class="plan-price">$89.000 <span>+ IVA / mes</span></div>
+        <div class="plan-setup">+ $350.000 CLP + IVA de instalación única</div>
+        <ul>
+          <li>2 canales (WhatsApp + Email/Instagram)</li>
+          <li>Propuestas generadas automáticamente</li>
+          <li>CRM completo con historial</li>
+          <li>Seguimiento inteligente por prioridad</li>
+          <li>Reporte semanal detallado</li>
+        </ul>
+        <a class="btn btn-ghost" href="https://wa.me/56976907280?text=Hola%2C%20me%20interesa%20el%20plan%20Growth" target="_blank" rel="noopener">Quiero este plan</a>
+      </div>
+      <div class="plan" data-reveal>
+        <div class="plan-name">Scale</div>
+        <div class="plan-desc">Para cadenas, franquicias o negocios con sistemas propios que conectar.</div>
+        <div class="plan-price">Cotización</div>
+        <div class="plan-setup">a la medida de tu volumen</div>
+        <ul>
+          <li>Multi-canal e integraciones a tus sistemas</li>
+          <li>Soporte prioritario</li>
+          <li>Reportería avanzada</li>
+          <li>Acompañamiento dedicado</li>
+        </ul>
+        <a class="btn btn-ghost" href="https://wa.me/56976907280?text=Hola%2C%20quiero%20cotizar%20el%20plan%20Scale" target="_blank" rel="noopener">Conversemos</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap" style="max-width:720px;">
+    <p class="kicker">Preguntas frecuentes</p>
+    <h2>Antes de que preguntes</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>¿Necesito instalar algo o cambiar mi WhatsApp?</span>
+          <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><p>No. Nosotros lo armamos de punta a punta — tú solo apruebas los mensajes antes de que salgan, sin instalar nada de tu parte.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>¿Puedo ver cómo funciona antes de decidir?</span>
+          <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><p>Sí — te mostramos una demo de 5 minutos con un caso real de tu negocio antes de que decidas. La instalación y el servicio se cobran desde el día que queda funcionando, no hay periodo de prueba gratis del servicio en sí.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>¿El asistente reemplaza a una persona de mi equipo?</span>
+          <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><p>No busca reemplazar a nadie. Responde lo repetitivo al instante y filtra quién está realmente interesado, para que tu equipo se enfoque en cerrar, no en contestar lo mismo todo el día.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>¿Qué pasa si preguntan algo que la IA no sabe responder?</span>
+          <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><p>Se marca como consulta prioritaria y la retomas tú directamente, con todo el historial de la conversación guardado — nunca se pierde el contexto.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>¿Mis datos y los de mis clientes quedan seguros?</span>
+          <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><p>Todo se guarda en tu propia base de datos, con acceso solo tuyo. No compartimos ni vendemos información a terceros.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>¿Cuánto se demora en quedar funcionando?</span>
+          <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><p>Entre 48 y 72 horas desde que confirmas el plan.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="blob final-blob-1"></div>
+  <div class="wrap">
+    <p class="kicker" style="text-align:center;">Empecemos</p>
+    <h2>Te mostramos cómo funciona con tu propio caso, sin compromiso.</h2>
+    <p class="lede">Sin instalar nada de tu parte — nosotros lo armamos y tú apruebas el resultado antes de que quede funcionando.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="https://wa.me/56976907280?text=Hola%2C%20quiero%20ver%20la%20demo%20gratis" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>&copy; 2026 Kontestame — Asistente de Ventas WhatsApp con IA.</p>
+    <p>WhatsApp: +56 9 7690 7280</p>
+  </div>
+</footer>
+
+<a class="float-cta" id="floatCta" href="https://wa.me/56976907280?text=Hola%2C%20quiero%20ver%20la%20demo%20gratis" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.2h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2m0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 0 1-1.26-4.39c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.55-3.7 8.24-8.24 8.24m4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.4-.12-.56.13-.17.25-.64.81-.79.97-.14.17-.29.18-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.13-.56-1.35-.77-1.84-.2-.48-.41-.42-.56-.42-.14-.01-.31-.01-.48-.01-.17 0-.43.06-.66.31-.23.25-.86.84-.86 2.05s.88 2.38 1 2.54c.13.17 1.73 2.64 4.2 3.7.59.25 1.05.4 1.4.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.2-.58.2-1.08.14-1.18-.06-.1-.23-.16-.48-.28"/></svg>
+  <span class="float-cta-text">Escríbenos por WhatsApp</span>
+</a>
+
+<script>
+  var els = document.querySelectorAll('[data-reveal]');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.15 });
+  els.forEach(function (el) { io.observe(el); });
+
+  var floatCta = document.getElementById('floatCta');
+  var heroEl = document.querySelector('.hero');
+  if (floatCta && heroEl) {
+    var ctaObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        floatCta.classList.toggle('visible', !e.isIntersecting);
+      });
+    }, { threshold: 0 });
+    ctaObserver.observe(heroEl);
+  }
+
+  document.querySelectorAll('.faq-q').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = btn.closest('.faq-item');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function (o) {
+        o.classList.remove('open');
+        o.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
