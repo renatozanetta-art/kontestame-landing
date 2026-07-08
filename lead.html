@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Déjanos tu consulta — Kontestame</title>
+<meta name="robots" content="noindex" />
+<link rel="icon" type="image/png" href="logo-icono.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fafbff;
+    --bg-raised: #f1f3fb;
+    --ink: #0a1128;
+    --ink-dim: #5b6485;
+    --line: rgba(10,17,40,0.09);
+    --acid: #2e5cff;
+    --acid-dim: #2447d6;
+    --ok: #1f8a4c;
+    --radius: 18px;
+    --font-display: "Bricolage Grotesque", sans-serif;
+    --font-body: "Work Sans", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    width: 100%;
+    max-width: 480px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 36px 32px;
+    box-shadow: 0 20px 60px rgba(10,17,40,0.08);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .brand img { width: 32px; height: 32px; border-radius: 8px; }
+  .brand span { font-family: var(--font-display); font-weight: 700; font-size: 18px; }
+  h1 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  p.sub { color: var(--ink-dim); margin: 0 0 28px; font-size: 15px; }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-dim);
+    margin: 0 0 6px;
+  }
+  .field { margin-bottom: 16px; }
+  input, textarea {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 15px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--bg-raised);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  input:focus, textarea:focus { border-color: var(--acid); }
+  textarea { resize: vertical; min-height: 84px; }
+  button {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--acid);
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.15s;
+  }
+  button:hover { background: var(--acid-dim); }
+  button:disabled { opacity: 0.6; cursor: default; }
+  .success {
+    text-align: center;
+    padding: 12px 0;
+  }
+  .success .check {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: rgba(31,138,76,0.12);
+    color: var(--ok);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 26px;
+  }
+  .success h2 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    margin: 0 0 8px;
+  }
+  .success p { color: var(--ink-dim); margin: 0; font-size: 14px; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">
+      <img src="logo-icono.png" alt="Kontestame" />
+      <span>Kontestame</span>
+    </div>
+
+    <div id="formView">
+      <h1>Cuéntanos qué necesitas</h1>
+      <p class="sub">Te respondemos apenas leamos tu mensaje.</p>
+      <form id="leadForm">
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" required autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="empresa">Empresa / negocio (opcional)</label>
+          <input id="empresa" name="empresa" type="text" autocomplete="organization" />
+        </div>
+        <div class="field">
+          <label for="telefono">Teléfono / WhatsApp</label>
+          <input id="telefono" name="telefono" type="tel" required autocomplete="tel" placeholder="+56 9 1234 5678" />
+        </div>
+        <div class="field">
+          <label for="email">Email (opcional)</label>
+          <input id="email" name="email" type="email" autocomplete="email" />
+        </div>
+        <div class="field">
+          <label for="necesidad">¿Qué necesitas?</label>
+          <textarea id="necesidad" name="necesidad" required></textarea>
+        </div>
+        <button type="submit" id="submitBtn">Enviar consulta</button>
+      </form>
+    </div>
+
+    <div id="successView" class="success hidden">
+      <div class="check">✓</div>
+      <h2>Recibido</h2>
+      <p>Gracias por escribirnos — te contactamos muy pronto.</p>
+    </div>
+  </div>
+
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    var clienteId = params.get('cid') || '';
+
+    var form = document.getElementById('leadForm');
+    var formView = document.getElementById('formView');
+    var successView = document.getElementById('successView');
+    var submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
+
+      var payload = {
+        data: {
+          fields: [
+            { label: 'Nombre', value: document.getElementById('nombre').value },
+            { label: 'Empresa/Negocio', value: document.getElementById('empresa').value },
+            { label: 'Telefono/WhatsApp', value: document.getElementById('telefono').value },
+            { label: 'Email', value: document.getElementById('email').value },
+            { label: 'Cuentanos que necesitas', value: document.getElementById('necesidad').value },
+            { label: 'Cliente ID', value: clienteId }
+          ]
+        }
+      };
+
+      fetch('https://automatizacioncl.app.n8n.cloud/webhook/nuevo-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .catch(function () {})
+        .finally(function () {
+          formView.classList.add('hidden');
+          successView.classList.remove('hidden');
+        });
+    });
+  </script>
+</body>
+</html>
