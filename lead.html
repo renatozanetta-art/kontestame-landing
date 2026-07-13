@@ -119,6 +119,14 @@
     margin: 0 0 8px;
   }
   .success p { color: var(--ink-dim); margin: 0; font-size: 14px; }
+  .error-msg {
+    color: #b3261e;
+    background: rgba(179,38,30,0.08);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    margin-top: 12px;
+  }
   .hidden { display: none !important; }
 </style>
 </head>
@@ -154,6 +162,7 @@
           <textarea id="necesidad" name="necesidad" required></textarea>
         </div>
         <button type="submit" id="submitBtn">Enviar consulta</button>
+        <p id="errorMsg" class="error-msg hidden">No pudimos enviar tu consulta — revisa tu conexión e intenta de nuevo, o escríbenos directo por WhatsApp al +56 9 7690 7280.</p>
       </form>
     </div>
 
@@ -172,11 +181,13 @@
     var formView = document.getElementById('formView');
     var successView = document.getElementById('successView');
     var submitBtn = document.getElementById('submitBtn');
+    var errorMsg = document.getElementById('errorMsg');
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       submitBtn.disabled = true;
       submitBtn.textContent = 'Enviando...';
+      errorMsg.classList.add('hidden');
 
       var payload = {
         data: {
@@ -191,15 +202,20 @@
         }
       };
 
-      fetch('https://automatizacioncl.app.n8n.cloud/webhook/nuevo-lead', {
+      fetch('https://n8n.kontestame.com/webhook/nuevo-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       })
-        .catch(function () {})
-        .finally(function () {
+        .then(function (response) {
+          if (!response.ok) throw new Error('respuesta no ok');
           formView.classList.add('hidden');
           successView.classList.remove('hidden');
+        })
+        .catch(function () {
+          errorMsg.classList.remove('hidden');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Enviar consulta';
         });
     });
   </script>
